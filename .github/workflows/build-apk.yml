@@ -1,4 +1,5 @@
 
+
 name: Build Voice Recovery Pro APK
 
 on:
@@ -25,19 +26,21 @@ jobs:
           distribution: temurin
           java-version: '17'
 
+      - name: Set up Android SDK
+        uses: android-actions/setup-android@v3
+        with:
+          packages: |
+            platform-tools
+            platforms;android-36
+            build-tools;36.0.0
+          accept-android-sdk-licenses: true
+
       - name: Set up Gradle
         uses: gradle/actions/setup-gradle@v4
         with:
           gradle-version: '8.11.1'
 
-      - name: Set up Android SDK
-        uses: android-actions/setup-android@v3
-
-      - name: Install Android SDK packages
-        run: |
-          sdkmanager "platform-tools" "platforms;android-36" "build-tools;36.0.0"
-
-      - name: Verify project files
+      - name: Check required project files
         run: |
           test -f settings.gradle
           test -f build.gradle
@@ -55,4 +58,3 @@ jobs:
           name: Voice-Recovery-Pro-APK
           path: app/build/outputs/apk/debug/app-debug.apk
           if-no-files-found: error
-
